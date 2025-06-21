@@ -56,6 +56,141 @@
   </style>
 </head>
 <body>
-  <!-- Kısa versiyon için gövde çıkarıldı -->
+  <header>
+    <h1>Burcuna Göre Menü</h1>
+    <p>Lezzetlerin yıldızlarla buluştuğu yer ✨</p>
+  </header>
+  <div class="container">
+    <div id="step1">
+      <h2>1. Burcunu seç:</h2>
+      <div class="burc-grid">
+        <button onclick="selectBurc('Koç')">Koç ♈</button>
+        <button onclick="selectBurc('Boğa')">Boğa ♉</button>
+        <button onclick="selectBurc('İkizler')">İkizler ♊</button>
+        <button onclick="selectBurc('Yengeç')">Yengeç ♋</button>
+        <button onclick="selectBurc('Aslan')">Aslan ♌</button>
+        <button onclick="selectBurc('Başak')">Başak ♍</button>
+        <button onclick="selectBurc('Terazi')">Terazi ♎</button>
+        <button onclick="selectBurc('Akrep')">Akrep ♏</button>
+        <button onclick="selectBurc('Yay')">Yay ♐</button>
+        <button onclick="selectBurc('Oğlak')">Oğlak ♑</button>
+        <button onclick="selectBurc('Kova')">Kova ♒</button>
+        <button onclick="selectBurc('Balık')">Balık ♓</button>
+      </div>
+    </div>
+
+    <div id="step2" class="hidden">
+      <h2>2. Bugün ne tarz istiyorsun?</h2>
+      <div class="options-grid">
+        <button onclick="selectTarz('hafif')">Hafif ve sağlıklı</button>
+        <button onclick="selectTarz('baharatlı')">Baharatlı ve tok tutan</button>
+        <button onclick="selectTarz('etli')">Etli/Proteinli</button>
+        <button onclick="selectTarz('vejetaryen')">Vejetaryen/sebzeli</button>
+      </div>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2>Senin için önerimiz:</h2>
+      <div class="result" id="oneriler"></div>
+    </div>
+  </div>
+
+  <script>
+    let selectedBurc = '';
+    let selectedTarz = '';
+
+    const öneriler = {
+      "Koç": {
+        "baharatlı": ["SweetChilli Burrito", "Sup Sucuk Pizza"],
+        "etli": ["Raphael Pizza", "SweetChilli Burger"],
+        "hafif": ["Çıtır Tavuk Salata"],
+        "vejetaryen": ["Sebzeli Penne"]
+      },
+      "Boğa": {
+        "baharatlı": ["Biftek Pizza"],
+        "etli": ["Etli Noodle", "Bolonez Spaghetti"],
+        "hafif": ["Akdeniz Salata"],
+        "vejetaryen": ["Leonardo Pizza"]
+      },
+      "İkizler": {
+        "baharatlı": ["SweetChilli Penne", "Sweet Chili Hot Dog"],
+        "etli": ["Michelangelo Pizza"],
+        "hafif": ["Hellim Salata"],
+        "vejetaryen": ["Sebzeli Noodle"]
+      },
+      "Yengeç": {
+        "baharatlı": ["Tavuklu Körili Penne"],
+        "etli": ["Tavuklu Kremalı Penne", "Tavuklu Noodle"],
+        "hafif": ["Ton Balıklı Salata"],
+        "vejetaryen": ["Marina Pizza"]
+      },
+      "Aslan": {
+        "baharatlı": ["Sup Sucuk Pizza", "Barbekü Hot Dog"],
+        "etli": ["Raphael Pizza"],
+        "hafif": ["Çıtır Tavuk Salata"],
+        "vejetaryen": ["Quatro 4 Peynir Pizza"]
+      },
+      "Başak": {
+        "baharatlı": ["Americano Penne"],
+        "etli": ["Bolonez Spaghetti"],
+        "hafif": ["Akdeniz Salata"],
+        "vejetaryen": ["Sebzeli Noodle"]
+      },
+      "Terazi": {
+        "baharatlı": ["SweetChilli Penne"],
+        "etli": ["Biftek Pizza"],
+        "hafif": ["Hellim Salata"],
+        "vejetaryen": ["Leonardo Pizza"]
+      },
+      "Akrep": {
+        "baharatlı": ["Raphael Pizza"],
+        "etli": ["Etli Noodle", "Biftek Pizza"],
+        "hafif": ["Margherita Pizza"],
+        "vejetaryen": ["Sebzeli Penne"]
+      },
+      "Yay": {
+        "baharatlı": ["SweetChilli Penne", "Sweet Chili Hot Dog"],
+        "etli": ["SweetChilli Burger"],
+        "hafif": ["Basic Burrito"],
+        "vejetaryen": ["Americano Penne"]
+      },
+      "Oğlak": {
+        "baharatlı": ["Coselow Burrito"],
+        "etli": ["Donatello Pizza", "Tavuklu Noodle"],
+        "hafif": ["Sezar Salata"],
+        "vejetaryen": ["Palmiye Akdeniz Pizza"]
+      },
+      "Kova": {
+        "baharatlı": ["SweetChilli Burrito"],
+        "etli": ["Michelangelo Pizza"],
+        "hafif": ["Margherita Pizza"],
+        "vejetaryen": ["Quatro 4 Peynir Pizza"]
+      },
+      "Balık": {
+        "baharatlı": ["Meksico Penne"],
+        "etli": ["Donatello Pizza"],
+        "hafif": ["Ton Balıklı Salata"],
+        "vejetaryen": ["Sebzeli Penne"]
+      }
+    };
+
+    function selectBurc(burc) {
+      selectedBurc = burc;
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+    }
+
+    function selectTarz(tarz) {
+      selectedTarz = tarz;
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('result').classList.remove('hidden');
+      showOneri();
+    }
+
+    function showOneri() {
+      let yemekler = öneriler[selectedBurc]?.[selectedTarz] || ["Bugünlük öneri bulunamadı. Menüye göz atmayı unutma!"];
+      document.getElementById("oneriler").innerHTML = yemekler.map(x => `🍕 ${x}`).join("<br>");
+    }
+  </script>
 </body>
 </html>
